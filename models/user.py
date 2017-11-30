@@ -4,6 +4,8 @@ from flask.ext.login import UserMixin
 
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     twitter_user_id = db.Column(db.Integer)
     screen_name = db.Column(db.String)
@@ -12,6 +14,15 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
+    switch_session = db.relationship('SwitchSession', uselist=False, backref='user', lazy=True)
+
     def create(self):
         db.session.add(self)
         db.session.commit()
+
+    @property
+    def iksm_session(self):
+        if self.switch_session:
+            return self.switch_session.iksm_session
+        else:
+            return None
