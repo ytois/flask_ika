@@ -9,7 +9,7 @@ from views.frontend.oauth_view import OauthView
 OauthView.register(app.app)
 
 # /setting/
-from views.frontend.setting import SettingView
+from views.frontend.setting_view import SettingView
 SettingView.register(app.app)
 
 # /api/

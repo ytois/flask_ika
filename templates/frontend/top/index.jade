@@ -14,3 +14,10 @@ block body
             = current_user.created_at
         p
             = current_user.updated_at
+    div
+      a(href="{{ url_for('OauthView:twitter') }}")
+        | twitter login
+      a(href="{{ url_for('SettingView:index') }}")
+        | setting
+      a(href="{{ url_for('TopView:logout') }}")
+        | logout
