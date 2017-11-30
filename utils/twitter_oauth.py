@@ -1,5 +1,6 @@
-from flask import current_app, request
+from flask import current_app
 from rauth import OAuth1Service
+from IPython import embed
 
 
 class TwitterOauth:
@@ -35,10 +36,23 @@ class TwitterOauth:
         """
         access_tokenとaccess_token_secretを返す
         """
-        session = self.service.get_auth_session(
+        self.session = self.service.get_auth_session(
             oauth_token,
             request_token_secret,
             data={'oauth_verifier': oauth_verifier}
         )
 
-        return (session.access_token, session.access_token_secret)
+        end_point = 'https://api.twitter.com/1.1/account/verify_credentials.json'
+        response = self.session.get(end_point)
+
+        if response.status_code == 200:
+            user_data = response.json()
+        else:
+            pass
+
+        return {
+            'access_token': self.session.access_token,
+            'access_token_secret': self.session.access_token_secret,
+            'twitter_user_id': user_data['id'],
+            'screen_name': user_data['screen_name']
+        }

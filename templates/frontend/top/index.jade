@@ -1,3 +1,16 @@
 extends layout/frontend
 block body
     h1= 'index'
+    div
+        = get_flashed_messages()
+    div
+        p
+            = current_user
+        p
+            = current_user.id
+        p
+            = current_user.screen_name
+        p
+            = current_user.created_at
+        p
+            = current_user.updated_at

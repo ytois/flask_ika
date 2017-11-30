@@ -12,7 +12,6 @@ class Application:
         self.set_template_engine()
         self.activate_color()
         self.set_csrf()
-        # self.initialize_login_manager()
 
     # load config
     def configure(self):
@@ -41,12 +40,6 @@ class Application:
     def set_csrf(self):
         self.csrf = CSRFProtect(self.app)
 
-    def initialize_login_manager(self):
-        login_manager = LoginManager()
-        login_manager.init_app(self.app)
-        # login_viewのrouteを設定
-        login_manager.login_view = "users.login"
-
     @property
     def db_uri(self):
         db_config = self.app.config['DATABASE']
@@ -65,6 +58,17 @@ class Application:
         )
 
 app = Application()
+
+# TODO: 暫定でclass外に置く
+login_manager = LoginManager()
+login_manager.init_app(app.app)
+
+from models import User
+
+
+@login_manager.user_loader
+def user_loader(id):
+    return User.query.get(id)
 
 # route: /
 from views.frontend.top_view import TopView
