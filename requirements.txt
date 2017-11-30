@@ -6,7 +6,6 @@ SQLAlchemy==1.1.11
 psycopg2==2.7.1
 memoize==1.0.0
 python-dateutil==2.6.1
-Flask-Webpack==0.1.0
 pyjade==4.0.0
 requests==2.18.1
 forbiddenfruit==0.1.2

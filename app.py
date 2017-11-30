@@ -34,5 +34,8 @@ class Application:
 
 app = Application().app
 
+from views.frontend.top_view import TopView
+TopView.register(app)
+
 if __name__ == '__main__':
     app.run()
