@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
+from flask_login import LoginManager
 import flask.ext.color
 import os
 
@@ -11,6 +12,7 @@ class Application:
         self.set_template_engine()
         self.activate_color()
         self.set_csrf()
+        # self.initialize_login_manager()
 
     # load config
     def configure(self):
@@ -27,6 +29,8 @@ class Application:
         # current_appで'Working outside of application context'が出る対策。ようわからん。
         self.app.app_context().push()
 
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = self.db_uri
+
     def set_template_engine(self):
         # use template jade
         self.app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
@@ -37,20 +41,42 @@ class Application:
     def set_csrf(self):
         self.csrf = CSRFProtect(self.app)
 
+    def initialize_login_manager(self):
+        login_manager = LoginManager()
+        login_manager.init_app(self.app)
+        # login_viewのrouteを設定
+        login_manager.login_view = "users.login"
 
-app = Application().app
+    @property
+    def db_uri(self):
+        db_config = self.app.config['DATABASE']
+        user = db_config['user']
+        passwd = db_config['pass']
+        host = db_config['host']
+        db = db_config['db']
+        port = 5432
+
+        return 'postgresql://{user}{password}@{host}:{port}/{db}'.format(
+            user=user,
+            password=':%s' % passwd if passwd else '',
+            host=host,
+            db=db,
+            port=port,
+        )
+
+app = Application()
 
 # route: /
 from views.frontend.top_view import TopView
-TopView.register(app)
-
-# route: /api/
-from views.api.api_view import ApiView
-ApiView.register(app)
+TopView.register(app.app)
 
 # route: /oauth/
 from views.frontend.oauth_view import OauthView
-OauthView.register(app)
+OauthView.register(app.app)
+
+# route: /api/
+from views.api.api_view import ApiView
+ApiView.register(app.app)
 
 if __name__ == '__main__':
     app.run()
