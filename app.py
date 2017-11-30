@@ -40,11 +40,17 @@ class Application:
 
 app = Application().app
 
+# route: /
 from views.frontend.top_view import TopView
 TopView.register(app)
 
+# route: /api/
 from views.api.api_view import ApiView
 ApiView.register(app)
+
+# route: /oauth/
+from views.frontend.oauth_view import OauthView
+OauthView.register(app)
 
 if __name__ == '__main__':
     app.run()
