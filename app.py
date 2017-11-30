@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 import flask.ext.color
 import os
 
@@ -9,9 +10,11 @@ class Application:
         self.configure()
         self.set_template_engine()
         self.activate_color()
+        self.set_csrf()
 
     # load config
     def configure(self):
+        self.app.config['SECRET_KEY'] = os.urandom(24)
         self.app.config.from_object('config.default')
 
         if os.getenv('FLASK_ENV', 'development') == 'production':
@@ -31,11 +34,17 @@ class Application:
     def activate_color(self):
         flask.ext.color.init_app(self.app)
 
+    def set_csrf(self):
+        self.csrf = CSRFProtect(self.app)
+
 
 app = Application().app
 
 from views.frontend.top_view import TopView
 TopView.register(app)
+
+from views.api.api_view import ApiView
+ApiView.register(app)
 
 if __name__ == '__main__':
     app.run()
