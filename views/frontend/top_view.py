@@ -21,11 +21,6 @@ class TopView(FlaskView):
     def battle_history(self):
         return render_template("frontend/top/battle_history.jade")
 
-    # /setting
-    @login_required
-    def setting(self):
-        return render_template("frontend/top/setting.jade")
-
     # /login
     def login(self):
         # ログイン自体はTwitterのみで行う

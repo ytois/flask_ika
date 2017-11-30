@@ -64,23 +64,13 @@ login_manager = LoginManager()
 login_manager.init_app(app.app)
 
 from models import User
+from views import routing
 
 
 @login_manager.user_loader
 def user_loader(id):
     return User.query.get(id)
 
-# route: /
-from views.frontend.top_view import TopView
-TopView.register(app.app)
-
-# route: /oauth/
-from views.frontend.oauth_view import OauthView
-OauthView.register(app.app)
-
-# route: /api/
-from views.api.api_view import ApiView
-ApiView.register(app.app)
 
 if __name__ == '__main__':
     app.run()
