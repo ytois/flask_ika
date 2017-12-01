@@ -1,6 +1,6 @@
 from models import db
 from datetime import datetime
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 
 
 class User(db.Model, UserMixin):
@@ -16,9 +16,12 @@ class User(db.Model, UserMixin):
 
     switch_session = db.relationship('SwitchSession', uselist=False, backref='user', lazy=True)
 
-    def create(self):
+    def add(self):
         db.session.add(self)
-        db.session.commit()
+        return self
+
+    def commit(self):
+        return db.session.commit()
 
     @property
     def iksm_session(self):

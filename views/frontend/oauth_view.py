@@ -46,7 +46,7 @@ class OauthView(FlaskView):
                 access_token=user_infomation['access_token'],
                 access_token_secret=user_infomation['access_token_secret']
             )
-            user.create()
+            user.add().commit()
             flash("登録しました")
 
         # login情報の保存
