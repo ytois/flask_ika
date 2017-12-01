@@ -8,7 +8,6 @@ class TopView(FlaskView):
 
     # /
     def index(self):
-        flash('message')
         return render_template("frontend/top/index.jade")
 
     # /dashboard
@@ -20,15 +19,6 @@ class TopView(FlaskView):
     @login_required
     def battle_history(self):
         return render_template("frontend/top/battle_history.jade")
-
-    # /login
-    def login(self):
-        # ログイン自体はTwitterのみで行う
-        if current_user.is_authenticated:
-            flash('ログイン済みです')
-            return redirect('/')
-        else:
-            return render_template("frontend/top/login.jade")
 
     # /logout
     def logout(self):

@@ -7,5 +7,14 @@ html(lang='ja')
         link(async rel='stylesheet' href='/static/css/uikit.min.css')
         link(async rel='stylesheet' href='/static/css/main.css')
     body
-        block body
+        .uk-container
+            - with messages = get_flashed_messages()
+                if messages
+                    ul.uk-list
+                    for message in messages
+                            li.uk-alert.uk-alert-primary.uk-text-small= message
+
+        .uk-container
+            block body
+
         script(async src='/static/js/bundle.js')

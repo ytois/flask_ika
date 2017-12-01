@@ -14,9 +14,13 @@ class SettingView(FlaskView):
     @login_required
     @route('/update/', methods=['POST'])
     def update(self):
+        # TODO: トランザクションはる
+        current_user.screen_name = request.form['screen_name']
+        current_user.add().commit()
+
         switch_session = current_user.switch_session or SwitchSession(user_id=current_user.id)
         switch_session.iksm_session = request.form['iksm_session']
         switch_session.add().commit()
 
-        flash("iksm_sessionを登録しました")
+        flash("情報を更新しました")
         return redirect('/setting/')

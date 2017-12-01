@@ -1,9 +1,15 @@
 extends layout/frontend
 block body
-    h1= 'setting'
-    div
-      = get_flashed_messages()
-    form(action='{{ url_for("SettingView:update") }}', method='post')
-      input(type="hidden" name="csrf_token", value="{{ csrf_token() }}")
-      input(type="text" name="iksm_session", value="{{ current_user.iksm_session }}")
-      input(type="submit", value="送信")
+    h2 Setting
+    form.uk-form.uk-form-stacked(action='{{ url_for("SettingView:update") }}', method='post')
+        input(type="hidden", name="csrf_token", value="{{ csrf_token() }}")
+        .uk-margin
+            label.uk-form-label(for='screen_name') Screen Name
+            .uk-form-controls
+                input.uk-input(type="text", name="screen_name", value="{{ current_user.screen_name}}")
+        .uk-margin
+            label.uk-form-label(for='iksm_session') iksm_session
+            .uk-form-controls
+                input.uk-input(type="text", name="iksm_session", value="{{ current_user.iksm_session }}")
+        .uk-margin
+            button.uk-button.uk-button-primary Submit
