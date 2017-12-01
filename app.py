@@ -57,11 +57,11 @@ class Application:
             port=port,
         )
 
-app = Application()
+app = Application().app
 
 # TODO: 暫定でclass外に置く
 login_manager = LoginManager()
-login_manager.init_app(app.app)
+login_manager.init_app(app)
 
 from models import User
 from views import routing
