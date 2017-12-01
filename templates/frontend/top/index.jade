@@ -1,8 +1,8 @@
 extends layout/frontend
 block body
     h1= 'index'
-    div
-        = get_flashed_messages()
+    div.uk-alert.uk-alert-success
+        p= get_flashed_messages()
     div
         p
             = current_user
@@ -15,9 +15,9 @@ block body
         p
             = current_user.updated_at
     div
-      a(href="{{ url_for('OauthView:twitter') }}")
+      a.uk-button.uk-button-primary(href="{{ url_for('OauthView:twitter') }}")
         | twitter login
-      a(href="{{ url_for('SettingView:index') }}")
+      a.uk-button.uk-button-primary(href="{{ url_for('SettingView:index') }}")
         | setting
-      a(href="{{ url_for('TopView:logout') }}")
+      a.uk-button.uk-button-primary(href="{{ url_for('TopView:logout') }}")
         | logout

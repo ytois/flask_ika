@@ -17,9 +17,13 @@ gulp.task 'stylus', ->
     .pipe stylus()
     .pipe gulp.dest('./static/css/')
 
+gulp.task 'copy', ->
+  gulp.src('node_modules/uikit/dist/css/uikit.min.css')
+    .pipe gulp.dest('./static/css/')
+
 gulp.task 'watch', ->
   gulp.watch ['./assets/scripts/**/*.coffee'], ['coffee']
   gulp.watch ['./assets/styles/**/*.styl'], ['stylus']
 
-gulp.task 'build', ['coffee', 'stylus']
+gulp.task 'build', ['coffee', 'stylus', 'copy']
 gulp.task 'default', ['build', 'watch']
