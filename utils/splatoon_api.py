@@ -1,22 +1,23 @@
-from urllib.request import build_opener, HTTPCookieProcessor
-from http.cookiejar import CookieJar
-from urllib.parser import urljoin
-import codecs
+from urllib.parse import urljoin
+import requests
+import json
 
 
 class SplatoonApi:
-    HOST = 'https://app.splatoon2.nintendo.net/api'
+    HOST = 'https://app.splatoon2.nintendo.net/api/'
 
     def __init__(self, iksm_session):
-        self.cookie = "iksm_session={}".format(iksm_session)
+        self.cookie = {"iksm_session": iksm_session}
 
     def results(self):
-        endpoint = '/results'
+        endpoint = './results'
         return self.__get(endpoint)
 
     def __get(self, endpoint):
         url = urljoin(self.HOST, endpoint)
-        opener = build_opener(HTTPCookieProcessor(CookieJar()))
-        opener.addheaders.append(("Cookie", self.cookie))
-        res = opener.open(url)
-        return (codecs.decode(res.read(), 'unicode-escape'))
+        response = requests.get(url, cookies=self.cookie)
+
+        if response.status_code == 200:
+            return json.loads(response.text)
+        else:
+            return response
