@@ -17,8 +17,8 @@ class TopView(FlaskView):
 
     # /battle_history
     @login_required
-    def battle_history(self):
-        return render_template("frontend/top/battle_history.jade")
+    def battle_results(self):
+        return render_template("frontend/top/battle_results.jade")
 
     # /logout
     def logout(self):

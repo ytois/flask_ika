@@ -1,0 +1,27 @@
+nav.uk-navbar-container(uk-navbar='')
+    .uk-navbar-right
+        .uk-inline
+            p.uk-padding-small(uk-icon="icon: menu")
+            div(uk-dropdown='')
+                ul.uk-nav.uk-dropdown-nav
+                    if current_user.is_authenticated
+                      li.uk-nav-header.uk-text-small
+                        | ログイン中:
+                        span.uk-text-primary= current_user.screen_name
+                        li.uk-nav-divider
+                        li
+                            a(href="{{ url_for('TopView:index') }}") Top
+                        li
+                            a(href="{{ url_for('TopView:dashboard') }}") Dashboard
+                        li
+                            a(href="{{ url_for('TopView:battle_results') }}") BattleResults
+                        li
+                            a(href="{{ url_for('SettingView:index') }}") Setting
+                        li.uk-nav-divider
+                        li
+                            a(href="{{ url_for('TopView:logout') }}") Logout
+                    else
+                        li.uk-nav-header 未ログイン
+                        li.uk-nav-divider
+                        li
+                            a(href="{{ url_for('OauthView:twitter') }}") Login

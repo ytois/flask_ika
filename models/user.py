@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
     switch_session = db.relationship('SwitchSession', uselist=False, backref='user', lazy=True)
+    # battle_results = db.relationship('BattleResult', uselist=True, backref='user', lazy=True)
 
     def add(self):
         db.session.add(self)
