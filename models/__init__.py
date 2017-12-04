@@ -8,3 +8,4 @@ from models.switch_session import SwitchSession
 from models.stage import Stage
 from models.game_mode import GameMode
 from models.rule import Rule
+from models.team_result import TeamResult
