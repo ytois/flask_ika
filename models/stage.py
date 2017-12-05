@@ -32,3 +32,10 @@ class Stage(db.Model):
         )
 
         return stage.add().commit()
+
+    def to_dict(self):
+        return {
+            'id': self.stage_id,
+            'image': self.image,
+            'name': self.name
+        }
