@@ -9,3 +9,4 @@ from models.stage import Stage
 from models.game_mode import GameMode
 from models.rule import Rule
 from models.team_result import TeamResult
+from models.schedule import Schedule
