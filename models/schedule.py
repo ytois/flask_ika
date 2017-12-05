@@ -23,4 +23,4 @@ class Schedule(db.Model):
 
     @hybrid_property
     def active(self):
-        return datetime.now() > self.start_time
+        return datetime.now() <= self.end_time
