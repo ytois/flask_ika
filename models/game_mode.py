@@ -17,3 +17,7 @@ class GameMode(db.Model):
 
     def commit(self):
         return db.session.commit()
+
+    @classmethod
+    def find_by_key(self, key):
+        return self.query.filter_by(name_en=key).one()

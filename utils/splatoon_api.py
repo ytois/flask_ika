@@ -13,6 +13,26 @@ class SplatoonApi:
         endpoint = './results'
         return self.__get(endpoint)
 
+    def schedules(self):
+        endpoint = './schedules'
+        return self.__get(endpoint)
+
+    def timeline(self):
+        endpoint = './'
+        return self.__get(endpoint)
+
+    def stage_data(self):
+        endpoint = './data/stages'
+        return self.__get(endpoint)
+
+    def records(self):
+        endpoint = './records'
+        return self.__get(endpoint)
+
+    def onlineshop(self):
+        endpoint = './onlineshop/merchandises'
+        return self.__get(endpoint)
+
     def __get(self, endpoint):
         url = urljoin(self.HOST, endpoint)
         response = requests.get(url, cookies=self.cookie)
