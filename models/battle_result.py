@@ -50,10 +50,10 @@ class BattleResult(db.Model):
     user              = db.relationship('User', uselist=False, backref='result', lazy=True)
     rule              = db.relationship('Rule', uselist=False, backref='result', lazy=True)
     game_mode         = db.relationship('GameMode', uselist=False, backref='result', lazy=True)
-    my_team_result    = db.relationship('TeamResult', uselist=False, backref='result', lazy=True)
-    other_team_result = db.relationship('TeamResult', uselist=False, backref='result', lazy=True)
-    player            = db.relationship('BattleMember', uselist=False, backref='result', lazy=True)
-    members           = db.relationship('BattleMember', uselist=True, backref='result', lazy=True, secondary=battle_result_members)
+    my_team_result    = db.relationship('TeamResult', uselist=False, lazy=True, foreign_keys="BattleResult.my_team_result_id")
+    other_team_result = db.relationship('TeamResult', uselist=False, lazy=True, foreign_keys="BattleResult.other_team_result_id")
+    player            = db.relationship('BattleMember', uselist=False, lazy=True)
+    members           = db.relationship('BattleMember', uselist=True, lazy=True, secondary=battle_result_members)
 
     @property
     def end_time(self):

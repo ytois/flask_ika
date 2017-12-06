@@ -6,7 +6,6 @@ class BattleMember(db.Model):
     __tablename__ = 'battle_members'
 
     id                          = db.Column(db.Integer, primary_key=True)
-    battle_number               = db.Column(db.Integer, nullable=False) # ユーザー固有のバトルID
     created_at                  = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at                  = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
