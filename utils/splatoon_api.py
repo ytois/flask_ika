@@ -9,31 +9,34 @@ class SplatoonApi:
     def __init__(self, iksm_session):
         self.cookie = {"iksm_session": iksm_session}
 
-    def results(self):
-        endpoint = './results'
-        return self.__get(endpoint)
+    def results(self, battle_number=None):
+        if battle_number:
+            endpoint = './results/%s' % battle_number
+        else:
+            endpoint = './results'
+        return self._get(endpoint)
 
     def schedules(self):
         endpoint = './schedules'
-        return self.__get(endpoint)
+        return self._get(endpoint)
 
     def timeline(self):
         endpoint = './'
-        return self.__get(endpoint)
+        return self._get(endpoint)
 
     def stage_data(self):
         endpoint = './data/stages'
-        return self.__get(endpoint)
+        return self._get(endpoint)
 
     def records(self):
         endpoint = './records'
-        return self.__get(endpoint)
+        return self._get(endpoint)
 
     def onlineshop(self):
         endpoint = './onlineshop/merchandises'
-        return self.__get(endpoint)
+        return self._get(endpoint)
 
-    def __get(self, endpoint):
+    def _get(self, endpoint):
         url = urljoin(self.HOST, endpoint)
         response = requests.get(url, cookies=self.cookie)
 
