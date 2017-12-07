@@ -31,7 +31,9 @@ class Stage(db.Model):
             image=_dict['image'],
         )
 
-        return stage.add().commit()
+        stage.add().commit()
+
+        return stage
 
     def to_dict(self):
         return {
