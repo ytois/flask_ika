@@ -61,3 +61,18 @@ class BattleResult(db.Model):
             return self.start_time + timedelta(seconds=self.elapsed_time)
         else:
             return None
+
+    def to_dict(self, detail=False):
+        response  = {}
+
+        for key in ['battle_number', 'start_time']:
+            value = self.__getattribute__(key)
+            response[key] = value
+
+        response['stage'] = self.stage.name
+        response['rule'] = self.rule.name
+        response['result'] = self.my_team_result.name
+        response['game_mode'] = self.game_mode.name
+        response['player'] = self.player.to_dict()
+
+        return response

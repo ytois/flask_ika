@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask_classy import FlaskView, route
-from flask_login import login_required
+from flask_login import login_required, current_user
 from models import Schedule
 
 
@@ -31,3 +31,7 @@ class ApiView(FlaskView):
                 response[game_mode][start_time] = [schedule.stage.to_dict()]
 
         return jsonify(response)
+
+    def results(self):
+        results = current_user.battle_results.limit(30).all()
+        return jsonify([r.to_dict() for r in results])

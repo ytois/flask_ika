@@ -32,6 +32,25 @@ class BattleMember(db.Model):
 
     @property
     def udemae_text(self):
+        if not self.udemae:
+            return None
+
         name = self.udemae['name']
         num = self.udemae['s_plus_number']
-        return name + num
+        return '%s%s' % (name, num)
+
+    def to_dict(self):
+        response = {}
+        keys = ['team', 'nickname', 'star_rank',
+                'weapon_paint_point', 'game_paint_point',
+                'player_rank', 'kill_count', 'assist_count',
+                'death_count', 'special_count', 'sort_score',]
+
+        for key in keys:
+            value = self.__getattribute__(key)
+            response[key] = value
+
+        response['udemae'] = self.udemae_text
+        # response['udemae_meter'] = self.udemae['number']
+
+        return response

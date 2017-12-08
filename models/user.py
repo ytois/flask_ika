@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
                                      backref='user',
                                      lazy=True,
                                      cascade='all, delete-orphan')
-    # battle_results = db.relationship('BattleResult', uselist=True, backref='user', lazy=True)
+    battle_results = db.relationship('BattleResult', uselist=True, lazy='dynamic', order_by="desc(BattleResult.battle_number)")
 
     def add(self):
         db.session.add(self)
