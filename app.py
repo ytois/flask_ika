@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
+from flask_jsglue import JSGlue
 import flask.ext.color
 import os
 
@@ -12,6 +13,7 @@ class Application:
         self.set_template_engine()
         self.activate_color()
         self.set_csrf()
+        self.setup_extention()
 
     # load config
     def configure(self):
@@ -39,6 +41,9 @@ class Application:
 
     def set_csrf(self):
         self.csrf = CSRFProtect(self.app)
+
+    def setup_extention(self):
+        jsglue = JSGlue(self.app)
 
     @property
     def db_uri(self):

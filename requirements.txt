@@ -16,3 +16,4 @@ rauth==0.7.3
 Flask-Login==0.4.0
 Flask-Migrate==2.1.1
 slackweb==1.0.5
+Flask-JSGlue==0.3.1
