@@ -9,18 +9,19 @@ class BattleMember(db.Model):
     created_at         = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at         = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
+    team               = db.Column(db.String, nullable=False) # my or other
     principal_id       = db.Column(db.String, nullable=False) # principal_id
+    nickname           = db.Column(db.String, nullable=False)
     star_rank          = db.Column(db.Integer)
-    weapon_paint_point = db.Column(db.Integer)
+    weapon_paint_point = db.Column(db.Integer) # 武器塗りポイント
     game_paint_point   = db.Column(db.Integer) # 塗りポイント
-    rank               = db.Column(db.Integer) # ランク
+    player_rank        = db.Column(db.Integer) # ランク
     kill_count         = db.Column(db.Integer) # キル数
     assist_count       = db.Column(db.Integer) # キルアシスト数
     death_count        = db.Column(db.Integer) # デス数
     special_count      = db.Column(db.Integer) # スペシャル発動数
     sort_score         = db.Column(db.Integer)
     # player: {shoes, shoes_skills, weapon, head_skills, nickname, principal_id, head, clothes, clothes_skills, star_rank}
-    team               = db.Column(db.String, nullable=False) # my or other
 
     # ガチ/リーグのみ
     udemae             = db.Column(db.JSON)

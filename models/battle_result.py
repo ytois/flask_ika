@@ -22,7 +22,6 @@ class BattleResult(db.Model):
     player_battle_member_id     = db.Column(db.Integer, db.ForeignKey('battle_members.id'), nullable=False)
 
     start_time                  = db.Column(db.DateTime, nullable=False) # ゲーム開始時間
-    elpased_time                = db.Column(db.Integer, nullable=False) # ゲーム時間(秒)
     created_at                  = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at                  = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
@@ -30,6 +29,7 @@ class BattleResult(db.Model):
     other_team_result_id        = db.Column(db.Integer, db.ForeignKey('team_results.id'), nullable=False)
 
     # ガチマのみ
+    elapsed_time                = db.Column(db.Integer) # ゲーム時間(秒)
     estimate_gachi_power        = db.Column(db.Integer)
     my_team_count               = db.Column(db.Integer)
     other_team_count            = db.Column(db.Integer)
@@ -57,4 +57,7 @@ class BattleResult(db.Model):
 
     @property
     def end_time(self):
-        return self.start_time + timedelta(seconds=self.elpased_time)
+        if self.elapsed_time:
+            return self.start_time + timedelta(seconds=self.elapsed_time)
+        else:
+            return None
