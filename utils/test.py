@@ -1,8 +1,10 @@
-from models import db, BattleResult, BattleMember
+from models import db, BattleResult, BattleMember, User
+from utils.splatoon_api import SplatoonApi
+from services.battle_result_service import BattleResultBuilder
 from datetime import datetime
 
 
-def insert_test():
+def battle_result_insert_test():
     members = [
         BattleMember(principal_id='a1', team='my'),
         BattleMember(principal_id='b1', team='my'),
@@ -29,3 +31,11 @@ def insert_test():
 
     db.session.add(result)
     db.session.commit()
+
+
+def battle_result_build_test():
+    user = User.query.first()
+    api = SplatoonApi(user.iksm_session)
+    results = api.results()
+    result = api.results(results['results'][0]['battle_number'])
+    return BattleResultBuilder(result, user)
