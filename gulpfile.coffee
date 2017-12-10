@@ -23,6 +23,7 @@ gulp.task 'copy', ->
 
 gulp.task 'watch', ->
   gulp.watch ['./assets/scripts/**/*.coffee'], ['coffee']
+  gulp.watch ['./assets/scripts/**/*.vue'], ['coffee']
   gulp.watch ['./assets/styles/**/*.styl'], ['stylus']
 
 gulp.task 'build', ['coffee', 'stylus', 'copy']
