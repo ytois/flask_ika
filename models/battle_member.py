@@ -1,4 +1,5 @@
 from models import db
+from models.battle_result_members import battle_result_members
 from datetime import datetime
 
 
@@ -28,6 +29,7 @@ class BattleMember(db.Model):
     # udemae ex. {'is_number_reached': False, 'name': 'S+', 'number': 10, 's_plus_number': 2},
 
     # relation
+    battle_result = db.relationship('BattleResult', uselist=False, lazy=True, secondary=battle_result_members)
     # gears
 
     @property
@@ -39,6 +41,12 @@ class BattleMember(db.Model):
         num = self.udemae['s_plus_number']
         return '%s%s' % (name, num)
 
+    @property
+    def udemae_meter(self):
+        if not self.udemae:
+            return None
+        return self.udemae['number']
+
     def to_dict(self):
         response = {}
         keys = ['team', 'nickname', 'star_rank',
@@ -46,11 +54,9 @@ class BattleMember(db.Model):
                 'player_rank', 'kill_count', 'assist_count',
                 'death_count', 'special_count', 'sort_score',]
 
-        for key in keys:
-            value = self.__getattribute__(key)
             response[key] = value
 
         response['udemae'] = self.udemae_text
-        # response['udemae_meter'] = self.udemae['number']
+        response['udemae_meter'] = self.udemae_meter
 
         return response

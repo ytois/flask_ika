@@ -1,13 +1,6 @@
 from models import db
+from models.battle_result_members import battle_result_members
 from datetime import datetime, timedelta
-
-# 中間テーブル
-battle_result_members = db.Table(
-    'battle_result_members',
-    db.metadata,
-    db.Column('battle_result_id', db.Integer, db.ForeignKey('battle_results.id')),
-    db.Column('battle_member_id', db.Integer, db.ForeignKey('battle_members.id'))
-)
 
 
 class BattleResult(db.Model):
@@ -46,11 +39,11 @@ class BattleResult(db.Model):
     other_team_percentage       = db.Column(db.Float)
 
     # relation
-    stage             = db.relationship('Stage', uselist=False, backref='result', lazy=True)
-    user              = db.relationship('User', uselist=False, backref='result', lazy=True)
-    rule              = db.relationship('Rule', uselist=False, backref='result', lazy=True)
-    game_mode         = db.relationship('GameMode', uselist=False, backref='result', lazy=True)
-    my_team_result    = db.relationship('TeamResult', uselist=False, lazy=True, foreign_keys="BattleResult.my_team_result_id")
+    stage             = db.relationship('Stage', uselist=False, backref='battle_result', lazy=True)
+    user              = db.relationship('User', uselist=False, backref='battle_result', lazy=True)
+    rule              = db.relationship('Rule', uselist=False, backref='battle_result', lazy=True)
+    game_mode         = db.relationship('GameMode', uselist=False, backref='battle_result', lazy=True)
+    result            = db.relationship('TeamResult', uselist=False, lazy=True, foreign_keys="BattleResult.my_team_result_id")
     other_team_result = db.relationship('TeamResult', uselist=False, lazy=True, foreign_keys="BattleResult.other_team_result_id")
     player            = db.relationship('BattleMember', uselist=False, lazy=True)
     members           = db.relationship('BattleMember', uselist=True, lazy=True, secondary=battle_result_members)
@@ -65,10 +58,11 @@ class BattleResult(db.Model):
     def to_dict(self, detail=False):
         response  = {}
 
-        for key in ['battle_number', 'start_time']:
+        for key in ['battle_number', ]:
             value = self.__getattribute__(key)
             response[key] = value
 
+        response['start_time'] = self.start_time.strftime('%F %H:%M:%S')
         response['stage'] = self.stage.name
         response['rule'] = self.rule.name
         response['result'] = self.my_team_result.name
